@@ -32,4 +32,5 @@ void snowv_gcm_encrypt(u8 * A, u8 * ciphertext, u8 * plaintext, u64 plaintext_sz
 void snowv_gcm_decrypt(u8 * A, u8 * ciphertext, u8 * plaintext, u64 ciphertext_sz,
                        u8 * aad, u64 aad_sz, u8 * key32, u8 * iv16);
 
-#endif // SNOWV_H
+
+#endif 
