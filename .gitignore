@@ -1,0 +1,44 @@
+# Build outputs
+*.exe
+*.obj
+*.o
+*.dll
+*.so
+*.dylib
+
+# Debug files
+*.pdb
+*.ilk
+*.exp
+
+# IDE files
+.vscode/
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Compiler specific
+*.gch
+*.pch
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
