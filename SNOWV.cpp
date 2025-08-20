@@ -1,4 +1,4 @@
-// SNOW-V 32-bit Reference Implementation (Endianness-free)
+// SNOW-V 32-bit Reference Implementation 
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -270,5 +270,6 @@ void ghash_final(const u8 * H, u8 * A, u64 lenAAD, u64 lenC, const u8 * maskingB
     }
     XOR2x64(tmp, A);
     ghash_mult(A, tmp, H);
-    XOR2x64(A, maskingBlock); /* The resulting AuthTag is in A[] */
+    XOR2x64(A, maskingBlock); 
+
 }
