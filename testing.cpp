@@ -4,7 +4,7 @@
 #include "SNOWV.h"
 #include "ghash.h"
 
-// Helper function to print hex arrays
+//to print hex arrays
 void print_hex(const char* label, const u8* data, size_t length) {
     std::cout << label << ": ";
     for(size_t i = 0; i < length; i++) {
@@ -14,12 +14,12 @@ void print_hex(const char* label, const u8* data, size_t length) {
     std::cout << std::dec << std::endl;
 }
 
-// Helper function to compare arrays
+//to compare arrays
 bool compare_arrays(const u8* expected, const u8* actual, size_t length) {
     return memcmp(expected, actual, length) == 0;
 }
 
-// Test vector structure
+// Test vector 
 struct TestVector {
     const char* name;
     u8 key[32];
@@ -32,7 +32,7 @@ struct TestVector {
     u8 expected_tag[16];
 };
 
-// Test vectors - Add your test vectors here
+// adding the test vectors 
 TestVector test_vectors[] = {
     {
         "Test Vector 1",
@@ -51,41 +51,41 @@ TestVector test_vectors[] = {
         // AAD
         {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07},
         8, // aad length
-        // Expected ciphertext (placeholder - replace with actual values)
+        // placeholder ciphertext
         {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-        // Expected tag (placeholder - replace with actual values)
+        // placeholder tag
         {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
     }
-    // Add more test vectors here...
+   
 };
 
-// Function to run a single test vector
+// running a single test vector here
 bool run_test_vector(const TestVector& tv) {
     std::cout << "\n=== " << tv.name << " ===" << std::endl;
     
-    // Print inputs
+    //inputs
     print_hex("Key", tv.key, 32);
     print_hex("IV", tv.iv, 16);
     print_hex("Plaintext", tv.plaintext, tv.plaintext_len);
     print_hex("AAD", tv.aad, tv.aad_len);
     
-    // Allocate output buffers
+    //output buffers
     u8 ciphertext[64];
     u8 tag[16];
     
-    // Perform encryption
+    //encrypting
     snowv_gcm_encrypt(tag, ciphertext, (u8*)tv.plaintext, tv.plaintext_len,
                       (u8*)tv.aad, tv.aad_len, (u8*)tv.key, (u8*)tv.iv);
     
-    // Print outputs
+    //outputs
     print_hex("Generated Ciphertext", ciphertext, tv.plaintext_len);
     print_hex("Generated Tag", tag, 16);
     print_hex("Expected Ciphertext", tv.expected_ciphertext, tv.plaintext_len);
     print_hex("Expected Tag", tv.expected_tag, 16);
     
-    // Verify results
+    // Verification
     bool ciphertext_match = compare_arrays(tv.expected_ciphertext, ciphertext, tv.plaintext_len);
     bool tag_match = compare_arrays(tv.expected_tag, tag, 16);
     
@@ -100,25 +100,24 @@ bool run_test_vector(const TestVector& tv) {
     }
 }
 
-// Function to test decryption
+//decryption testing
 bool test_decryption(const TestVector& tv) {
     std::cout << "\n=== Testing Decryption for " << tv.name << " ===" << std::endl;
     
-    // Allocate buffers
     u8 ciphertext[64];
     u8 tag[16];
     u8 decrypted[64];
     
-    // First encrypt to get ciphertext and tag
+    //tryna get ciphertext and tag
     snowv_gcm_encrypt(tag, ciphertext, (u8*)tv.plaintext, tv.plaintext_len,
                       (u8*)tv.aad, tv.aad_len, (u8*)tv.key, (u8*)tv.iv);
     
-    // Then decrypt
+    //decryption
     try {
         snowv_gcm_decrypt(tag, ciphertext, decrypted, tv.plaintext_len,
                           (u8*)tv.aad, tv.aad_len, (u8*)tv.key, (u8*)tv.iv);
         
-        // Verify decryption
+        //decryption verification
         bool decryption_match = compare_arrays(tv.plaintext, decrypted, tv.plaintext_len);
         
         if (decryption_match) {
@@ -142,7 +141,7 @@ int main() {
     int passed_tests = 0;
     int passed_decryption_tests = 0;
     
-    // Run all test vectors
+    //running test vectors
     for (int i = 0; i < total_tests; i++) {
         if (run_test_vector(test_vectors[i])) {
             passed_tests++;
@@ -153,7 +152,7 @@ int main() {
         }
     }
     
-    // Print summary
+    //summary
     std::cout << "\n==================" << std::endl;
     std::cout << "TEST SUMMARY" << std::endl;
     std::cout << "==================" << std::endl;
@@ -167,4 +166,5 @@ int main() {
         std::cout << "✗ SOME TESTS FAILED" << std::endl;
         return 1;
     }
+
 }
